@@ -1,2 +1,2 @@
-# lib_common
-通用工具类
+# ch_lib
+sample lib modules
