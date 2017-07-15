@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.changhong.watson.lib_common">
+    package="com.changhong.watson.common">
 
     <application
         android:allowBackup="false"
