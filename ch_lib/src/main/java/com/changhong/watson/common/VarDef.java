@@ -6,5 +6,6 @@ package com.changhong.watson.common;
  */
 
 public class VarDef {
-    public final static String PATH_STAT = "/proc/stat";
+    public static final String PACKAGE_NAME_LAUNCHER = "com.yunos.tv.homeshell";
+    public static final String PATH_STAT = "/proc/stat";
 }
