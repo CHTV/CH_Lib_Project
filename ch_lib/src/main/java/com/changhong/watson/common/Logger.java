@@ -3,7 +3,7 @@ package com.changhong.watson.common;
 import android.util.Log;
 
 class Logger {
-    private static final String TAG = "ch-log--";
+    public static final String TAG = "ch-log--";
     private static final boolean LOG_ENABLE = true;
     private static final boolean DETAIL_ENABLE = true;
 
