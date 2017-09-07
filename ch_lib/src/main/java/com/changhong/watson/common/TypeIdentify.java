@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.changhong.tvos.common.HotelManager;
 import com.changhong.tvos.common.MiscManager;
 import com.changhong.tvos.common.TVManager;
 import com.changhong.tvos.common.exception.TVManagerNotInitException;
@@ -15,19 +16,18 @@ import com.changhong.tvos.common.exception.TVManagerNotInitException;
 
 public class TypeIdentify {
 
+    private static TypeIdentify typeIdentify;
     Context mContext;
 
-    private static TypeIdentify typeIdentify;
+    private TypeIdentify(Context context) {
+        this.mContext = context;
+    }
 
     public static TypeIdentify getInstance(Context context) {
         if (typeIdentify == null) {
             typeIdentify = new TypeIdentify(context);
         }
         return typeIdentify;
-    }
-
-    private TypeIdentify(Context context) {
-        this.mContext = context;
     }
 
     public String getProductType() {
@@ -40,6 +40,21 @@ public class TypeIdentify {
         } catch (TVManagerNotInitException e) {
             e.printStackTrace();
         }
+        return tmp;
+    }
+
+    public String getProductName() {
+        TVManager tvM = TVManager.getInstance(mContext);
+        String tmp = "";
+        MiscManager miscManager;
+        try {
+            miscManager = tvM.getMiscManager();
+            tmp = miscManager.getCurProductName();
+
+        } catch (TVManagerNotInitException e) {
+            e.printStackTrace();
+        }
+        // Logger.d("product_type===="+tmp);
         return tmp;
     }
 
@@ -93,12 +108,65 @@ public class TypeIdentify {
         return flag;
     }
 
+    /**
+     * 四川广电定制机
+     *
+     * @return
+     */
+    public boolean is5507Hotel() {
+        boolean flag = false;
+        if (getProductType().startsWith("ZLM61H")) {
+            flag = true;
+        }
+        return flag;
+    }
+
     public boolean is5327() {
         boolean flag = false;
         if (getProductType().startsWith("ZLM50HiS")) {
             flag = true;
         }
         return flag;
+    }
+
+    public boolean is638Home() {
+        boolean is638 = false;
+        if (getProductType().contains("ZLS58")) {
+            is638 = true;
+        }
+//        if (getProductType().contains("ZLS58Gi-") || getProductType().contains("ZLS58Gi4X") || getProductType().contains("ZLS58GiH")) {
+//            flag = true;
+//        }
+        return is638 && !is638Old();
+    }
+
+    /**
+     * 老年机
+     *
+     * @return
+     */
+    public boolean is638Old() {
+        boolean flag = false;
+        if (getProductType().contains("ZLS58GiPJ2")) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    /**
+     * 判断是否处于酒店模式
+     *
+     * @return
+     */
+    public boolean isHotelMode() {
+        HotelManager hotelM = null;
+        TVManager manager = TVManager.getInstance(mContext);
+        try {
+            hotelM = manager.getHotelManager();
+        } catch (TVManagerNotInitException e) {
+            e.printStackTrace();
+        }
+        return hotelM.getHotelMode();
     }
 
     public boolean is818Mstar() {
@@ -120,6 +188,14 @@ public class TypeIdentify {
     public boolean is638() {
         boolean flag = false;
         if (getProductType().contains("ZLS58")) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    public boolean is638Laser() {
+        boolean flag = false;
+        if (getProductType().contains("ZLS58Gi4XLZ")) {
             flag = true;
         }
         return flag;
